@@ -1,0 +1,226 @@
+
+:root {
+    --register-form-bg: #ffffff;
+    --input-bg: #f5f5f5;
+    --input-border: #e0e0e0;
+    --input-text-color: #333;
+    --register-button-bg: #6a0dad; 
+    --register-button-hover-bg: #5a009a;
+    --link-color: #3f51b5;
+    --app-title-color: #3f51b5; 
+    --text-color: #333; 
+}
+
+body.dark-theme {
+    --register-form-bg: #16213e;
+    --input-bg: #2e3b5e;
+    --input-border: #4a5c86;
+    --input-text-color: #e0e0e0;
+    --register-button-bg: #8a2be2;
+    --register-button-hover-bg: #7a1dd1;
+    --link-color: #87CEEB;
+    --app-title-color: #87CEEB; 
+    --text-color: #e0e0e0; 
+}
+
+
+.register-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-color); 
+}
+
+
+.main-content-register {
+    flex-grow: 1;
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    gap: 150px; 
+    padding: 40px 20px;
+    text-align: left; 
+}
+
+
+.register-hero-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; 
+    margin-bottom: 0;
+    width: 45%;
+    max-width: 600px;
+}
+
+.hero-icon-register { 
+    height: 500px;
+    margin-bottom: 20px;
+}
+
+.app-title-register { 
+    font-size: 56px;
+    color: var(--app-title-color);
+    margin: 0;
+    font-weight: 700;
+}
+
+
+
+.register-form-section {
+    background-color: var(--register-form-bg);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 30%; 
+    max-width: 350px; 
+    border: 1px solid var(--input-border);
+    transition: background-color 0.5s ease, border-color 0.5s ease;
+    text-align: left;
+    margin-right: auto; 
+    margin-left: 0; 
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-color);
+    transition: color 0.5s ease;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: var(--input-bg);
+    color: var(--input-text-color);
+    transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+    box-sizing: border-box;
+}
+
+.form-group input::placeholder {
+    color: #999;
+}
+
+
+.user-type-group {
+    display: flex;
+    justify-content: space-around; 
+    gap: 15px; 
+    margin-top: 10px;
+}
+
+.user-type-group .radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: normal; 
+    color: var(--text-color);
+}
+
+.user-type-group input[type="radio"] {
+    width: auto; 
+    margin-right: 8px;
+    accent-color: var(--register-button-bg); 
+}
+
+
+.register-button {
+    background-color: var(--register-button-bg);
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.register-button:hover {
+    background-color: var(--register-button-hover-bg);
+}
+
+.has-account-text {
+    margin-top: 25px;
+    font-size: 16px;
+    color: var(--text-color);
+    transition: color 0.5s ease;
+}
+
+.has-account-text .signin-link {
+    color: var(--link-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.5s ease;
+}
+
+.has-account-text .signin-link:hover {
+    text-decoration: underline;
+}
+
+
+@media (max-width: 768px) {
+    .main-content-register {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+        gap: 30px;
+    }
+
+    .register-hero-section,
+    .register-form-section {
+        width: 90%;
+        max-width: 400px;
+        margin-left: 130px;
+        margin-right: 130px;
+    }
+
+    .register-hero-section {
+        align-items: center;
+        margin-bottom: 0;
+    }
+
+    .register-form-section {
+        padding: 30px 20px;
+    }
+
+    .hero-icon-register { 
+        height: 100px; 
+    }
+
+    .app-title-register { 
+        font-size: 40px; 
+    }
+}
+
+@media (max-width: 480px) {
+    .register-form-section {
+        padding: 20px 15px;
+    }
+
+    .form-group input, .register-button {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+
+    .user-type-group {
+        flex-direction: column; 
+        gap: 8px;
+    }
+}

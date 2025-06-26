@@ -1,0 +1,301 @@
+
+:root {
+    --bg-color: #e6f0ed; 
+    --header-bg: #ffffff; 
+    --text-color: #333; 
+    --logo-text-color: #333; 
+    --nav-link-color: #555; 
+    --nav-link-hover-bg: #f0f0f0; 
+    --active-nav-link-color: #4CAF50; 
+    --hero-section-bg: transparent; 
+    --app-title-color: #3f51b5; 
+    --tagline-color: #666; 
+    --role-selection-bg: #d1c4e9; 
+    --role-button-color: #6a0dad; 
+    --role-button-active-bg: #6a0dad; 
+    --role-button-active-text: white; 
+    --description-text-color: #444; 
+}
+
+
+body.dark-theme {
+    --bg-color: #1a1a2e; 
+    --header-bg: #16213e; 
+    --text-color: #e0e0e0; 
+    --logo-text-color: #ffffff; 
+    --nav-link-color: #b0b0b0; 
+    --nav-link-hover-bg: #3f4e6d; 
+    --active-nav-link-color: #90ee90; 
+    --hero-section-bg: transparent; 
+    --app-title-color: #87CEEB; 
+    --tagline-color: #c0c0c0; 
+    --role-selection-bg: #4a337a; 
+    --role-button-color: #e0e0e0; 
+    --role-button-active-bg: #8a2be2; 
+    --role-button-active-text: white; 
+    --description-text-color: #c0c0c0; 
+}
+
+
+
+.homepage-container {
+    background-color: var(--bg-color); 
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.5s ease; 
+}
+
+/* Header */
+.header {
+    width: 100%;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--header-bg); 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    transition: background-color 0.5s ease; 
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 100px;
+    margin-right: 10px;
+}
+
+.logo-text {
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--logo-text-color); 
+    transition: color 0.5s ease; 
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--nav-link-color); 
+    font-weight: 600;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: var(--nav-link-hover-bg); 
+    color: var(--text-color); 
+}
+
+.nav-link.active {
+    color: var(--active-nav-link-color); 
+}
+
+.nav-link.register-button {
+    background-color: #6a0dad; 
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.nav-link.register-button:hover {
+    background-color: #5a009a;
+}
+
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+    margin-left: 10px;
+}
+
+.toggle-input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-label {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--role-selection-bg); 
+    border-radius: 26px;
+    transition: 0.4s;
+}
+
+.toggle-label:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+}
+
+.toggle-input:checked + .toggle-label {
+    background-color: var(--role-button-active-bg); 
+}
+
+.toggle-input:checked + .toggle-label:before {
+    transform: translateX(24px);
+}
+
+
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    width: 100%;
+}
+
+
+.hero-section {
+    background-color: var(--hero-section-bg); 
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    margin-bottom: 40px;
+    width: 85%;
+    max-width: 750px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background-color 0.5s ease; 
+}
+
+.hero-icon {
+    height: 250px;
+    margin-bottom: 25px;
+}
+
+.app-title {
+    font-size: 56px;
+    color: var(--app-title-color); 
+    margin-bottom: 15px;
+    font-weight: 700;
+    transition: color 0.5s ease; 
+}
+
+.tagline {
+    font-size: 22px;
+    color: var(--tagline-color); 
+    margin-bottom: 40px;
+    max-width: 500px;
+    line-height: 1.4;
+    transition: color 0.5s ease; 
+}
+
+
+.role-selection {
+    display: flex;
+    background-color: var(--role-selection-bg); 
+    border-radius: 30px;
+    padding: 6px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.5s ease; 
+}
+
+.role-button {
+    background-color: transparent;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    color: var(--role-button-color); 
+}
+
+.role-button.active {
+    background-color: var(--role-button-active-bg); 
+    color: var(--role-button-active-text); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.role-button:hover:not(.active) {
+    background-color: var(--role-selection-bg);
+    opacity: 0.8; 
+}
+
+
+.description-section {
+    background-color: var(--hero-section-bg); 
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    width: 85%;
+    max-width: 800px;
+    text-align: left;
+    color: var(--description-text-color); 
+    line-height: 1.7;
+    transition: color 0.5s ease; 
+}
+
+.description-text {
+    font-size: 19px;
+}
+
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        padding: 15px 20px;
+        gap: 15px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .hero-section, .description-section {
+        width: 95%;
+        padding: 30px 20px;
+    }
+
+    .app-title {
+        font-size: 40px;
+    }
+
+    .tagline {
+        font-size: 18px;
+    }
+
+    .role-button {
+        padding: 10px 20px;
+        font-size: 15px;
+    }
+
+    .description-text {
+        font-size: 16px;
+    }
+}

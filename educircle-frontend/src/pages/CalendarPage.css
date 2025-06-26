@@ -1,0 +1,47 @@
+.react-calendar {
+  font-size: 1.25rem;
+}
+
+.react-calendar__tile.big-calendar-tile {
+  min-height: 60px;
+  font-size: 1.2em;
+}
+
+.react-calendar__month-view__weekdays {
+  font-size: 1.1em;
+}
+
+.react-calendar__navigation button {
+  font-size: 1.2em;
+}
+
+
+.dark-theme .calendar-card {
+  background: #23213a !important;
+  color: #f3f3fa !important;
+  border: 1.5px solid #444 !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.25) !important;
+}
+.dark-theme .calendar-card h1,
+.dark-theme .calendar-card h3 {
+  color: #f3f3fa !important;
+}
+.dark-theme .react-calendar {
+  background: #23213a !important;
+  color: #f3f3fa !important;
+  border: none !important;
+}
+.dark-theme .react-calendar__tile {
+  background: #2c2a4a !important;
+  color: #f3f3fa !important;
+}
+.dark-theme .react-calendar__tile--active {
+  background: #7c3aed !important;
+  color: #fff !important;
+}
+.dark-theme .react-calendar__navigation button {
+  color: #f3f3fa !important;
+}
+.dark-theme .react-calendar__month-view__weekdays {
+  color: #bdbddd !important;
+} 

@@ -1,0 +1,216 @@
+.dashboardContainer {
+    display: flex;
+    flex-direction: column; 
+    height: 100vh;
+    background-color: var(--bg-color);
+}
+
+.bodyArea {
+    display: flex;
+    flex: 1;
+    height: 100%;
+}
+
+.sidebar {
+    background-color: var(--header-bg);
+    border-radius: 40px;
+    margin: 20px 0 20px 20px;
+    padding: 20px 0;
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 150px;
+    box-shadow: 0 4px 15px rgba(44, 62, 80, 0.08);
+    height: calc(100vh - 80px); 
+    color: var(--text-color);
+}
+
+.mainContent {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #e6f4ea;
+}
+
+.contentArea {
+    padding: 40px;
+    flex-grow: 1;
+    overflow-y: auto;
+    background-color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+}
+
+.contentArea h1 {
+    color: var(--text-color);
+    margin-bottom: 25px;
+    font-size: 2em;
+}
+
+
+.actionCards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.card h3 {
+    color: #444;
+    margin-bottom: 10px;
+    font-size: 1.3em;
+}
+
+.card p {
+    color: #666;
+    font-size: 0.95em;
+    margin-bottom: 20px;
+}
+
+
+.primaryButton {
+    background-color: #4CAF50; 
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.primaryButton:hover {
+    background-color: #45a049;
+}
+
+.secondaryButton {
+    background-color: #007bff; 
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+}
+
+.secondaryButton:hover {
+    background-color: #0056b3;
+}
+
+
+
+.section {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 25px;
+    margin-bottom: 30px;
+}
+
+.section h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+
+.coursesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.courseCard {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+.courseCard h3 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 1.2em;
+}
+
+.courseCard p {
+    color: #555;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.courseCard .lastUpdated {
+    font-style: italic;
+    color: #888;
+    font-size: 0.85em;
+    margin-top: 15px;
+}
+
+
+.announcementsList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.announcementItem {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #ffa500; 
+}
+
+.announcementItem h4 {
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+}
+
+.announcementItem .announcementDate {
+    color: #777;
+    font-size: 0.85em;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.announcementItem p {
+    color: #555;
+    font-size: 0.9em;
+}
+
+
+@media (max-width: 768px) {
+    .dashboardContainer {
+        flex-direction: column; 
+    }
+    .actionCards {
+        grid-template-columns: 1fr; 
+    }
+    .coursesGrid {
+        grid-template-columns: 1fr; 
+    }
+    .contentArea {
+        padding: 15px;
+    }
+}
+
