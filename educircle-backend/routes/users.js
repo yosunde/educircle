@@ -5,6 +5,93 @@ const { auth, authorize } = require('../middleware/auth');
 
 const router = express.Router();
 
+// GET /api/users/me
+router.get('/me', auth, async (req, res) => {
+  console.log('req.user:', req.user);
+  try {
+    const userId = req.user.id;
+    const result = await pool.query(
+      'SELECT id, username, email, first_name, last_name, school_number, role, created_at, updated_at FROM users WHERE id = $1',
+      [userId]
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json({ user: result.rows[0] });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// PUT /api/users/me
+router.put('/me', auth, [
+  body('first_name').optional().notEmpty(),
+  body('last_name').optional().notEmpty(),
+  body('school_number').optional().notEmpty(),
+  body('email').optional().isEmail()
+], async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { first_name, last_name, school_number, email } = req.body;
+
+    // Email unique mi kontrolü
+    if (email) {
+      const existing = await pool.query(
+        'SELECT id FROM users WHERE email = $1 AND id != $2',
+        [email, userId]
+      );
+      if (existing.rows.length > 0) {
+        return res.status(400).json({ error: 'Email is already taken' });
+      }
+    }
+
+    // Dinamik update
+    const updateFields = [];
+    const values = [];
+    let paramCount = 1;
+    if (first_name) { updateFields.push(`first_name = $${paramCount}`); values.push(first_name); paramCount++; }
+    if (last_name) { updateFields.push(`last_name = $${paramCount}`); values.push(last_name); paramCount++; }
+    if (school_number) { updateFields.push(`school_number = $${paramCount}`); values.push(school_number); paramCount++; }
+    if (email) { updateFields.push(`email = $${paramCount}`); values.push(email); paramCount++; }
+    if (updateFields.length === 0) {
+      return res.status(400).json({ error: 'No fields to update' });
+    }
+    updateFields.push(`updated_at = CURRENT_TIMESTAMP`);
+    values.push(userId);
+
+    const result = await pool.query(
+      `UPDATE users SET ${updateFields.join(', ')} WHERE id = $${paramCount} RETURNING id, username, email, first_name, last_name, school_number, role, updated_at`,
+      values
+    );
+    res.json({ message: 'Profile updated', user: result.rows[0] });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// PUT /api/users/me/password
+router.put('/me/password', auth, [
+  body('old_password').notEmpty(),
+  body('new_password').isLength({ min: 6 })
+], async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { old_password, new_password } = req.body;
+    // Şu an düz metin şifre, hash yok!
+    const result = await pool.query('SELECT password_hash FROM users WHERE id = $1', [userId]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    if (result.rows[0].password_hash !== old_password) {
+      return res.status(400).json({ error: 'Old password is incorrect' });
+    }
+    await pool.query('UPDATE users SET password_hash = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2', [new_password, userId]);
+    res.json({ message: 'Password updated successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 // Get all users (admin only)
 router.get('/', auth, authorize('admin'), async (req, res) => {
   try {

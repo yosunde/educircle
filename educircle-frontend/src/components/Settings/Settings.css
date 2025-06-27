@@ -1,0 +1,107 @@
+.settings-outer-container {
+  max-width: 500px;
+  margin: 40px auto;
+  background: #eaf4e6;
+  padding: 32px 32px 24px 32px;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+.settings-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 32px;
+  text-align: left;
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.settings-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.settings-form-group label {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.settings-form-group input {
+  font-size: 1.1rem;
+  padding: 10px 12px;
+  border: 1px solid #b2b2b2;
+  border-radius: 6px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+.settings-form-group input:focus {
+  border: 1.5px solid #4caf50;
+}
+
+.settings-courses-list {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 1.05rem;
+}
+
+.settings-form-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.settings-form-buttons button {
+  font-size: 1.1rem;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 6px;
+  background: #4caf50;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.settings-form-buttons button:hover {
+  background: #388e3c;
+}
+
+/* DARK MODE EKLENTİLERİ */
+.settings-dark-bg {
+  background: #23272f !important;
+}
+
+.settings-dark-container {
+  background: #2c313a !important;
+  color: #f1f1f1;
+}
+
+.settings-dark-container input {
+  background: #23272f;
+  color: #f1f1f1;
+  border: 1px solid #444;
+}
+
+.settings-dark-container input:focus {
+  border: 1.5px solid #90caf9;
+}
+
+.settings-dark-container label {
+  color: #e0e0e0;
+}
+
+.settings-dark-container .settings-form-buttons button {
+  background: #90caf9;
+  color: #23272f;
+}
+
+.settings-dark-container .settings-form-buttons button:hover {
+  background: #42a5f5;
+}

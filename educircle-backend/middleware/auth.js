@@ -26,6 +26,7 @@ const auth = async (req, res, next) => {
     }
 
     req.user = result.rows[0];
+    console.log('AUTH MIDDLEWARE: next() çağrılıyor, req.user:', req.user);
     next();
   } catch (error) {
     console.error('!!! JWT DOĞRULAMA HATASI !!!');
