@@ -42,7 +42,7 @@ const SignIn = () => {
             window.location.href = '/dashboard'; 
         }
     } catch (error) {
-        alert(error.response?.data?.error || 'Giriş başarısız!');
+        alert(error.response?.data?.error || 'Sign in failed!');
     }
 };
 

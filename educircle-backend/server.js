@@ -11,14 +11,15 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(helmet()); // Security headers
-app.use(morgan('combined')); // Logging
+app.use(helmet()); 
+app.use(morgan('combined')); 
 app.use(cors({
   origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
   credentials: true
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static('uploads')); 
 
 // Database connection
 const { pool, testConnection, initDatabase } = require('./config/database');
@@ -28,8 +29,13 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/courses', require('./routes/courses'));
 app.use('/api/projects', require('./routes/projects'));
+app.use('/api/groups', require('./routes/groups'));
+app.use('/api/groups', require('./routes/documents'));
+app.use('/api/notifications', require('./routes/notifications'));
+const documentsRoutes = require('./routes/documents');
+app.use('/api', documentsRoutes);
 
-// Health check endpoint
+
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
@@ -38,7 +44,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Root endpoint
+
 app.get('/', (req, res) => {
   res.json({ 
     message: 'Welcome to EduCircle Backend API',
@@ -48,7 +54,10 @@ app.get('/', (req, res) => {
       auth: '/api/auth',
       users: '/api/users',
       courses: '/api/courses',
-      projects: '/api/projects'
+      projects: '/api/projects',
+      groups: '/api/groups',
+      documents: '/api/documents',
+      notifications: '/api/notifications'
     }
   });
 });

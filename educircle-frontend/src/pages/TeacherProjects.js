@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Layout/Navbar';
 import Sidebar from '../components/Layout/Sidebar';
 
@@ -12,6 +12,7 @@ const TeacherProjects = () => {
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -247,6 +248,27 @@ const TeacherProjects = () => {
                       Close
                     </button>
                   )}
+                  <div style={{ display: 'flex', justifyContent: 'center', marginTop: 12 }}>
+                    <button
+                      onClick={() => navigate(`/projects/${project.id}/groups/teacher`)}
+                      style={{
+                        background: '#6c63ff',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '8px',
+                        padding: '8px 20px',
+                        fontWeight: 'bold',
+                        fontSize: '1rem',
+                        cursor: 'pointer',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                        transition: 'background 0.2s'
+                      }}
+                      onMouseOver={e => e.currentTarget.style.background = '#4b47b5'}
+                      onMouseOut={e => e.currentTarget.style.background = '#6c63ff'}
+                    >
+                      View Groups
+                    </button>
+                  </div>
                 </div>
               ))}
               {[...Array(Math.max(0, 4 - filteredProjects.length))].map((_, i) => (

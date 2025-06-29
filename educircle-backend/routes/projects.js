@@ -31,15 +31,28 @@ router.get('/course/:courseId', auth, async (req, res) => {
     }
 
     // Kursa ait projeleri getir
-    const result = await pool.query(
-      `SELECT p.id, p.name, p.description, p.project_code, p.due_date, p.is_active, p.created_at, p.updated_at
-       FROM projects p
-       WHERE p.course_id = $1
-       ORDER BY p.created_at DESC`,
-      [courseId]
-    );
-
-    res.json({ projects: result.rows });
+    if (userRole === 'student') {
+      const result = await pool.query(
+        `SELECT p.id, p.name, p.description, p.project_code, p.due_date, p.is_active, p.created_at, p.updated_at,
+                (sp.id IS NOT NULL) AS joined
+         FROM projects p
+         LEFT JOIN student_projects sp ON sp.project_id = p.id AND sp.student_id = $2
+         WHERE p.course_id = $1
+         ORDER BY p.created_at DESC`,
+        [courseId, userId]
+      );
+      res.json({ projects: result.rows });
+    } else {
+      const result = await pool.query(
+        `SELECT p.id, p.name, p.description, p.project_code, p.due_date, p.is_active, p.created_at, p.updated_at,
+                false AS joined
+         FROM projects p
+         WHERE p.course_id = $1
+         ORDER BY p.created_at DESC`,
+        [courseId]
+      );
+      res.json({ projects: result.rows });
+    }
   } catch (error) {
     console.error('Get course projects error:', error);
     res.status(500).json({ error: 'Server error' });
@@ -71,7 +84,6 @@ router.post('/course/:courseId', auth, authorize('teacher'), [
       return res.status(403).json({ error: 'Bu kursa proje ekleme yetkiniz yok.' });
     }
 
-    // project_code otomatik üret
     const projectCode = Math.random().toString(36).substring(2, 8).toUpperCase();
 
     const result = await pool.query(
@@ -80,6 +92,32 @@ router.post('/course/:courseId', auth, authorize('teacher'), [
        RETURNING id, name, description, project_code, due_date, is_active, created_at, updated_at`,
       [courseId, teacherId, name, description || '', projectCode, due_date || null]
     );
+
+    // Kurs öğrencilerine yeni proje bildirimi gönder
+    const studentsQuery = `
+      SELECT sc.student_id 
+      FROM student_courses sc 
+      WHERE sc.course_id = $1
+    `;
+    const studentsResult = await pool.query(studentsQuery, [courseId]);
+    
+    for (const student of studentsResult.rows) {
+      const notificationQuery = `
+        INSERT INTO notifications (user_id, type, message, link)
+        VALUES ($1, $2, $3, $4)
+      `;
+      
+      const dueDateText = due_date ? ` - Teslim: ${new Date(due_date).toLocaleDateString('tr-TR')}` : '';
+      const message = `Yeni proje: "${name}"${dueDateText} - Katılmak için kod: ${projectCode}`;
+      const link = `/projects/join`;
+      
+      await pool.query(notificationQuery, [
+        student.student_id, 
+        'announcement', 
+        message, 
+        link
+      ]);
+    }
 
     res.status(201).json({
       message: 'Project created successfully',
@@ -117,7 +155,6 @@ router.put('/:projectId', auth, authorize('teacher'), [
       return res.status(403).json({ error: 'Bu projeyi güncelleme yetkiniz yok.' });
     }
 
-    // Dinamik update sorgusu
     const updateFields = [];
     const values = [];
     let paramCount = 1;
@@ -263,6 +300,61 @@ router.get('/student', auth, authorize('student'), async (req, res) => {
     res.json({ projects: result.rows });
   } catch (error) {
     console.error('Student projects error:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Tekil proje detayını getir (hem öğretmen hem öğrenci erişebilir)
+router.get('/:projectId', auth, async (req, res) => {
+  try {
+    const { projectId } = req.params;
+    const userId = req.user.id;
+    const userRole = req.user.role;
+
+    // Proje var mı?
+    const projectResult = await pool.query(
+      `SELECT p.id, p.name, p.description, p.project_code, p.due_date, p.is_active, p.created_at, p.updated_at,
+              c.id as course_id, c.name as course_name, c.course_code, c.teacher_id,
+              u.first_name as teacher_first_name, u.last_name as teacher_last_name
+       FROM projects p
+       JOIN courses c ON p.course_id = c.id
+       JOIN users u ON c.teacher_id = u.id
+       WHERE p.id = $1`,
+      [projectId]
+    );
+    if (projectResult.rows.length === 0) {
+      return res.status(404).json({ error: 'Proje bulunamadı.' });
+    }
+    const project = projectResult.rows[0];
+
+    // Erişim kontrolü: Öğretmen kendi projesi mi, öğrenci projeye kayıtlı mı?
+    if (userRole === 'teacher' && project.teacher_id !== userId) {
+      return res.status(403).json({ error: 'Bu projeye erişim yetkiniz yok.' });
+    }
+    if (userRole === 'student') {
+      const studentCheck = await pool.query(
+        'SELECT id FROM student_projects WHERE project_id = $1 AND student_id = $2',
+        [projectId, userId]
+      );
+      if (studentCheck.rows.length === 0) {
+        return res.status(403).json({ error: 'Bu projeye erişim yetkiniz yok.' });
+      }
+    }
+
+    // Projedeki öğrenci sayısı
+    const studentCountResult = await pool.query(
+      'SELECT COUNT(*) FROM student_projects WHERE project_id = $1',
+      [projectId]
+    );
+    const student_count = parseInt(studentCountResult.rows[0].count, 10);
+
+    res.json({
+      project: {
+        ...project,
+        student_count
+      }
+    });
+  } catch (error) {
     res.status(500).json({ error: 'Server error' });
   }
 });

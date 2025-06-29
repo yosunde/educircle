@@ -36,7 +36,7 @@ const initDatabase = async () => {
   try {
     const client = await pool.connect();
     
-    // Create users table
+    
     await client.query(`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
@@ -74,6 +74,19 @@ const initDatabase = async () => {
         enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         completed_at TIMESTAMP,
         UNIQUE(user_id, course_id)
+      )
+    `);
+
+    
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS notifications (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        type VARCHAR(50),
+        message TEXT,
+        link TEXT,
+        is_read BOOLEAN DEFAULT FALSE,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     `);
 

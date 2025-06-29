@@ -1,0 +1,39 @@
+.notification-dropdown {
+  position: absolute;
+  right: 0;
+  top: 36px;
+  background: #fff;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  min-width: 270px;
+  z-index: 100;
+  max-height: 350px;
+  overflow-y: auto;
+  border-radius: 10px;
+  padding: 0;
+}
+
+.notification-dropdown > div {
+  font-size: 15px;
+  transition: background 0.2s;
+}
+
+.notification-dropdown > div:hover {
+  background: #f5f5f5;
+}
+
+.notification-dropdown button {
+  background: none;
+  border: none;
+  color: #4caf50;
+  font-size: 13px;
+  cursor: pointer;
+  margin-left: 4px;
+  padding: 2px 6px;
+  border-radius: 5px;
+  transition: background 0.2s;
+}
+
+.notification-dropdown button:hover {
+  background: #e6f4ea;
+} 

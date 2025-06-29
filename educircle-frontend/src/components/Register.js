@@ -55,7 +55,7 @@ const Register = () => {
             window.location.href = '/dashboard';
         }
     } catch (error) {
-        alert(error.response?.data?.error || 'Kayıt başarısız!');
+        alert(error.response?.data?.error || 'Registration failed!');
     }
 };
 

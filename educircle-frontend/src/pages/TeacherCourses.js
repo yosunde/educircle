@@ -42,7 +42,7 @@ const TeacherCourses = () => {
     console.log('Frontendden gönderilen token:', token);
 
     if (!token) {
-      setError("Giriş yapmanız gerekiyor.");
+      setError("You need to sign in.");
       setLoading(false);
       return;
     }
@@ -62,7 +62,7 @@ const TeacherCourses = () => {
         setLoading(false);
       })
       .catch(err => {
-        setError("Kurslar yüklenemedi.");
+        setError("Courses could not be loaded.");
         setLoading(false);
       });
   }, []);
@@ -72,7 +72,7 @@ const TeacherCourses = () => {
     setLoading(true);
     const token = localStorage.getItem("token");
     if (!token) {
-      setError("Giriş yapmanız gerekiyor.");
+      setError("You need to sign in.");
       setLoading(false);
       return;
     }
@@ -95,7 +95,7 @@ const TeacherCourses = () => {
         setLoading(false);
       })
       .catch(() => {
-        setError("Kurs eklenemedi.");
+        setError("Course could not be added.");
         setLoading(false);
       });
   };
@@ -131,7 +131,7 @@ const TeacherCourses = () => {
       setLoading(false);
     })
     .catch(err => {
-      setError('Kurs güncellenemedi.');
+      setError('Course could not be updated.');
       setLoading(false);
     });
   };
@@ -158,7 +158,7 @@ const TeacherCourses = () => {
       setLoading(false);
     })
     .catch(err => {
-      setError('Kurs kapatılamadı.');
+      setError('Course could not be closed.');
       setLoading(false);
     });
   };
@@ -184,7 +184,7 @@ const TeacherCourses = () => {
               </button>
             </div>
             {error && <div style={{ color: "red", margin: "12px 0" }}>{error}</div>}
-            {loading && <div style={{ color: "#888", margin: "12px 0" }}>Yükleniyor...</div>}
+            {loading && <div style={{ color: "#888", margin: "12px 0" }}>Loading...</div>}
             <div style={{ margin: "24px 0", display: "flex", alignItems: "center" }}>
               <input
                 type="text"
@@ -215,7 +215,11 @@ const TeacherCourses = () => {
                     >
                       <div>
                         <button 
-                          onClick={() => handleOpenEditModal(course)}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleOpenEditModal(course);
+                          }}
                           style={{ position: "absolute", top: "16px", right: "16px", background: "none", border: "none", cursor: "pointer", fontSize: "1.2rem" }}
                         >
                           ✏️
@@ -232,7 +236,11 @@ const TeacherCourses = () => {
                       </div>
                       {course.is_active && (
                         <button 
-                          onClick={() => handleCloseCourse(course.id)}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleCloseCourse(course.id);
+                          }}
                           style={{ marginTop: "16px", background: "#e74c3c", color: "#fff", border: "none", borderRadius: "8px", padding: "8px 16px", alignSelf: "flex-start", cursor: 'pointer' }}
                         >
                           Close

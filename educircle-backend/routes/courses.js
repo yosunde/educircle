@@ -43,6 +43,28 @@ router.post('/teacher', auth, authorize('teacher'), [
        RETURNING id, name, description, course_code, is_active, created_at, updated_at`,
       [teacherId, name, description || '', courseCode]
     );
+
+    // Tüm öğrencilere yeni kurs bildirimi gönder
+    const studentsQuery = `SELECT id FROM users WHERE role = 'student'`;
+    const studentsResult = await pool.query(studentsQuery);
+    
+    for (const student of studentsResult.rows) {
+      const notificationQuery = `
+        INSERT INTO notifications (user_id, type, message, link)
+        VALUES ($1, $2, $3, $4)
+      `;
+      
+      const message = `Yeni kurs: "${name}" - Katılmak için kod: ${courseCode}`;
+      const link = `/courses/join`;
+      
+      await pool.query(notificationQuery, [
+        student.id, 
+        'announcement', 
+        message, 
+        link
+      ]);
+    }
+
     res.status(201).json({
       message: 'Course created successfully',
       course: result.rows[0]

@@ -45,7 +45,6 @@ router.put('/me', auth, [
       }
     }
 
-    // Dinamik update
     const updateFields = [];
     const values = [];
     let paramCount = 1;
@@ -77,7 +76,6 @@ router.put('/me/password', auth, [
   try {
     const userId = req.user.id;
     const { old_password, new_password } = req.body;
-    // Şu an düz metin şifre, hash yok!
     const result = await pool.query('SELECT password_hash FROM users WHERE id = $1', [userId]);
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'User not found' });
@@ -114,7 +112,6 @@ router.get('/:id', auth, async (req, res) => {
   try {
     const { id } = req.params;
     
-    // Users can only view their own profile unless they're admin
     if (req.user.role !== 'admin' && req.user.id !== parseInt(id)) {
       return res.status(403).json({ error: 'Access denied' });
     }
@@ -149,7 +146,6 @@ router.put('/:id', auth, [
     const { id } = req.params;
     const { full_name, email } = req.body;
 
-    // Users can only update their own profile unless they're admin
     if (req.user.role !== 'admin' && req.user.id !== parseInt(id)) {
       return res.status(403).json({ error: 'Access denied' });
     }
@@ -166,7 +162,7 @@ router.put('/:id', auth, [
       }
     }
 
-    // Build update query dynamically
+
     const updateFields = [];
     const values = [];
     let paramCount = 1;
@@ -214,7 +210,6 @@ router.delete('/:id', auth, authorize('admin'), async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Prevent admin from deleting themselves
     if (req.user.id === parseInt(id)) {
       return res.status(400).json({ error: 'Cannot delete your own account' });
     }
@@ -243,7 +238,6 @@ router.get('/:id/enrollments', auth, async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Users can only view their own enrollments unless they're admin
     if (req.user.role !== 'admin' && req.user.id !== parseInt(id)) {
       return res.status(403).json({ error: 'Access denied' });
     }

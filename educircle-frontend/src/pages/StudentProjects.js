@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Layout/Navbar';
 import Sidebar from '../components/Layout/Sidebar';
 
@@ -13,6 +13,7 @@ const StudentProjects = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [joinError, setJoinError] = useState('');
+  const navigate = useNavigate();
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -200,7 +201,7 @@ const StudentProjects = () => {
                 }}>
                   <div style={{ textAlign: 'center', marginBottom: 12 }}>
                     <div style={{ fontWeight: "bold", marginBottom: "8px", fontSize: '1.1rem' }}>{project.name}</div>
-                    {project.project_code && (
+                    {project.joined && project.project_code && (
                       <div style={{ fontSize: '0.95rem', margin: '4px 0' }}>Project Code: <b>#{project.project_code}</b></div>
                     )}
                     {project.description && (
@@ -213,12 +214,48 @@ const StudentProjects = () => {
                     )}
                     <div style={{ fontSize: '0.95rem', margin: '4px 0' }}>Status: <span style={{ fontWeight: 'bold', color: project.is_active ? '#27ae60' : '#c0392b' }}>{project.is_active ? 'Active' : 'Inactive'}</span></div>
                   </div>
-                  {project.is_active && (
-                    <button
-                      style={{ background: '#e74c3c', color: '#fff', border: 'none', borderRadius: '8px', padding: '8px 16px', fontWeight: 'bold', cursor: 'pointer' }}
-                    >
-                      Close
-                    </button>
+                  {project.joined ? (
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: 12 }}>
+                      <button
+                        onClick={() => navigate(`/projects/${project.id}/groups/student`)}
+                        style={{
+                          background: '#6c63ff',
+                          color: '#fff',
+                          border: 'none',
+                          borderRadius: '8px',
+                          padding: '8px 20px',
+                          fontWeight: 'bold',
+                          fontSize: '1rem',
+                          cursor: 'pointer',
+                          boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                          transition: 'background 0.2s'
+                        }}
+                        onMouseOver={e => e.currentTarget.style.background = '#4b47b5'}
+                        onMouseOut={e => e.currentTarget.style.background = '#6c63ff'}
+                      >
+                        View Groups
+                      </button>
+                    </div>
+                  ) : (
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: 12 }}>
+                      <button
+                        onClick={() => setShowJoinModal(true)}
+                        style={{
+                          background: '#27ae60',
+                          color: '#fff',
+                          border: 'none',
+                          borderRadius: '8px',
+                          padding: '8px 20px',
+                          fontWeight: 'bold',
+                          fontSize: '1rem',
+                          cursor: 'pointer',
+                          boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                          transition: 'background 0.2s'
+                        }}
+                      >
+                        Join
+                      </button>
+                    </div>
                   )}
                 </div>
               ))}
