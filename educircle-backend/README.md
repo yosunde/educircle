@@ -9,7 +9,7 @@ Eğitim platformu için Node.js ve Express.js tabanlı REST API.
 - **Kayıt Sistemi**: Kurslara kayıt olma
 - **JWT Authentication**: Güvenli token tabanlı kimlik doğrulama
 - **PostgreSQL**: Güçlü veritabanı desteği
-- **Role-based Access Control**: Kullanıcı rolleri (student, instructor, admin)
+- **Role-based Access Control**: Kullanıcı rolleri (student, instructor)
 
 ## 📋 Gereksinimler
 
@@ -86,7 +86,7 @@ npm start
 
 - **student**: Kurslara kayıt olabilir, kendi profilini yönetebilir
 - **instructor**: Kurs oluşturabilir, düzenleyebilir, kendi kurslarını yönetebilir
-- **admin**: Tüm işlemleri yapabilir, kullanıcıları yönetebilir
+
 
 ## 📝 Örnek Kullanım
 
